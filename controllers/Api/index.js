@@ -14,10 +14,10 @@ module.exports = {
                 {
                     $lookup:
                     {
-                        from: "question",
+                        from: "questions",
                         localField: "question",
-                        foreignField: "id",
-                        as: "__"
+                        foreignField: "_id",
+                        as: "question"
                     }
                 }
             ])
