@@ -5,12 +5,11 @@ var mongoose = require("mongoose");
 var ResponsesSchema = new mongoose.Schema({
     response: String,
     username: String,
-    question:[
+    question:
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Question"
         }
-    ]
 });
 
 

@@ -3,6 +3,7 @@ const { logger } = require('../../loggers/logger')
 
 const ResponseSchema = require("../../models/responses")
 const QuestionSchema = require("../../models/questions")
+var mongoose = require("mongoose");
 
 
 
@@ -84,7 +85,7 @@ module.exports = {
                     ResponseSchema.create({
                         response: payload.actions[0].selected_option.value,
                         username: payload.user.username,
-                        question: question.id
+                        question: mongoose.Types.ObjectId(question._id)
                     }, async (err, createdResponse) => {
                         if (err) {
                             // return
@@ -182,7 +183,7 @@ module.exports = {
                 let addResp = await addResponse({
                     response: `${payload.submission.time}, ${payload.submission.time_2} ${payload.submission.day}`,
                     username: payload.user.name,
-                    question: question.id
+                    question: mongoose.Types.ObjectId(question._id)
                 })
 
                 dataToSend = {
@@ -256,7 +257,7 @@ module.exports = {
                 let addResp = await addResponse({
                     response: `${payload.submission.number_scale_res}`,
                     username: payload.user.name,
-                    question: question.id
+                    question: mongoose.Types.ObjectId(question._id)
                 })
 
                 dataToSend = {
