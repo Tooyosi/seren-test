@@ -363,7 +363,7 @@ module.exports = {
         await questions.forEach(question => {
             QuestionSchema.create(question, (err, created) => {
                 if (err) {
-                    console.log(err)
+                    // console.log(err)
                 } else {
                     i += 1
                 }

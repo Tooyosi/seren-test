@@ -4,7 +4,8 @@
   "description": "A Slack bot api",
   "main": "app.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --testTimeout=10000"
+    "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
