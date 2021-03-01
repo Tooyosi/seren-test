@@ -10,7 +10,7 @@ module.exports = {
             let responses = await ResponseSchema.aggregate([
                 {
                     $unwind: "$question"
-                 },
+                },
                 {
                     $lookup:
                     {
@@ -22,9 +22,11 @@ module.exports = {
                 }
             ])
 
-            res.send(responses)
+            return res.status(200).send(responses)
         } catch (error) {
             logger.error(`Failed to ferch reponse list due to ${error.toString()}`)
+            return res.status(400).send("An error occured")
+
         }
     }
 }

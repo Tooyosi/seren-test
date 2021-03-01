@@ -10,7 +10,7 @@ const token = process.env.SLACK_BOT_TOKEN
 const swaggerUi = require('swagger-ui-express');
 const specs = require('./swagger/index')
 
-var url = process.env.DB_URL;
+var url = process.env.NODE_ENV == "test" ? "mongodb://localhost:27017/seren_dev" : process.env.DB_URL;
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
   if (err) {
     console.log(err)
@@ -20,8 +20,8 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, (err)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.get('/swagger.json', function (req, res) {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(specs);
+  res.setHeader('Content-Type', 'application/json');
+  res.send(specs);
 });
 
 const botRoutes = require("./routes/Bots/index")
@@ -36,3 +36,6 @@ app.get("*", (req, res) => {
 app.listen(process.env.PORT, () => {
   console.log(`App is running on ${process.env.PORT}`)
 })
+
+
+module.exports = app

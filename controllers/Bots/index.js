@@ -4,7 +4,7 @@ const { logger } = require('../../loggers/logger')
 const ResponseSchema = require("../../models/responses")
 const QuestionSchema = require("../../models/questions")
 var mongoose = require("mongoose");
-
+const { questionFetch, addResponse } = require("../../Helpers");
 
 
 let apiInstance = new ApiService()
@@ -13,15 +13,8 @@ module.exports = {
         let dataToSend
         let { payload } = req.body
         payload = JSON.parse(payload)
-
-        let questionFetch = async (param) => {
-            let question = await QuestionSchema.findOne().where('code').equals(param)
-            return question
-        }
-
-        let addResponse = async (data) => {
-            return await ResponseSchema.create(data)
-        }
+        
+       
         if (payload && payload.actions && payload.actions[0] && payload.actions[0].action_id) {
             switch (payload.actions[0].action_id) {
                 case "greeting_list":
@@ -144,7 +137,7 @@ module.exports = {
                     let addResp = await addResponse({
                         response: promisedValue.toString(),
                         username: payload.user.name,
-                        question: quest.id
+                        question: mongoose.Types.ObjectId(quest.id)
                     })
 
                     dataToSend = {
@@ -345,12 +338,12 @@ module.exports = {
 
             await apiInstance.makeCall("post", req.body.response_url, dataToSend)
 
+            return res.status(200).send("")
 
         } catch (error) {
             logger.error(`Failed to send request with data ${JSON.stringify(dataToSend)} due to ${error.toString()}`)
-
+            return res.status(400).send("An error occured")
         }
-        return res.status(200).send("")
 
     },
 
